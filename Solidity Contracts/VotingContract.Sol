@@ -1,0 +1,54 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
+
+
+contract Voting{
+    address private owner;
+    uint public countOfA = 0;
+    uint public countOfB = 0;
+    string public topic ="";
+    string public optA="";
+    string public optB="";
+    string public Winner="";
+    bytes public results = "";
+    string public Won="";
+
+    constructor()  {
+        owner=msg.sender;
+    }
+
+    function topicCreation (string memory _topic,string memory _optA,string memory _optB) public returns( string memory,string memory, string memory){
+        topic = _topic;
+        optA = _optA;
+        optB = _optB;
+
+        return (topic,optA,optB);
+    }
+
+    function optionA() public returns(uint) {
+        //countOfA=countOfA+1;
+        return countOfA++;
+    }
+
+    function optionB() public returns (uint){
+        countOfB=countOfB+1;
+        return countOfB;
+    }
+
+    function evaluate() public payable returns(string memory){
+        if (countOfA>countOfB){
+            results = abi.encodePacked(optA," Won");
+            Winner = string(results);
+            Won = optA;
+            return optA;
+        }
+        if (countOfB>countOfA){
+            results = abi.encodePacked(optB," Won");
+            Winner = string(results);
+            Won = optB;
+            return optB;
+        }
+        return "None Won";
+        
+    }
+}
